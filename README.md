@@ -197,11 +197,9 @@ WHERE tabela.id = 1
 Explica a condição `WHERE` dentro de consultas, onde posse haver diversas condições da tabela principal ou das demais relacionadas.
 
 ```
-SELECT
-  *
-FROM tabela
-INNER JOIN outra_tabela on outra_tabela.id = tabela.Id_outra_tabela
-WHERE outra_tabela.id = 1
+SELECT * FROM tabela
+  INNER JOIN outra_tabela on outra_tabela.id = tabela.Id_outra_tabela
+    WHERE outra_tabela.id = 1
 ```
 
 ## Aula 17 - Dando nome aos campos e Tabelas 'ALIAS'
@@ -235,9 +233,7 @@ Explicado o conceito de SubSelect e como utiliza-lo.
 Exemplo Pratico:
 
 ```
-SELECT
-  *
-FROM (
+SELECT * FROM (
   SELECT
     id,
     nome,
@@ -280,3 +276,79 @@ O `COALESCE` serve para identificar campos nulos e preenche-los com algum outro 
 O `REPLACE` você pode identificar algum caracter e remove-lo ou substitui-lo por algum outro caractér.
 
 O `SUBSTRING` serve para cortar um texto de-a partir de onde informa-lo.
+
+## Aula 22 - Comandos - Count , Max, Min, Limit , Sum, Group By, Order By
+
+### Atividade
+
+`Count` é utilizado para contagem de linhas dentro de uma consulta em especifico. É possivel colocar condições dentro dela para contagens de certas linhas em especifico. Sua sintexe é: `SELECT COUNT(username) FROM "SCH"."User"`
+`Max` busca o maior valor dentro de uma consulta. Sua sintexe é: `SELECT MAX(preco) FROM "SCH"."Produto"`.
+`Min` busca o menor valor dentro de uma consulta. Sua sintexe é: `SELECT MIN(preco) FROM "SCH"."Produto"`.
+`Limit` colocar um limite de resultados da consulta. Exemplo: é possivel retornar apenas 1 ou 10 resultados de uma consulta. Sua sintaxe é: `SELECT * FROM "SCH"."User" Limit 1`.
+
+## Aula 23 - Comando WITH - POSTGRE e ORACLE
+
+### Atividade
+
+O comando `WITH` funciona como se você criasse uma tabela temporária e consultadsse ela, porém, em nível de consulta mesmo.
+Exemplo:
+
+```
+WITH PR AS (
+  SELECT * FROM "SCH"."User" WHERE estado = "PR"
+),
+SP AS (
+  SELECT * FROM "SCH"."User" WHERE estado = "SP"
+)
+SELECT * FROM PR
+UNION
+SELECT * FROM SP
+```
+
+Através desse comando é possivel fazer diversas comparações entre os dados consultados.
+
+## Aula 24 - Introdução e conceituacão de Trigers
+
+### Atividade
+
+As triggers são operações realizadas de maneira espontanea para eventos especificos dentro do banco de dados. Quando uma operação de `INSERT`, `UPDATE` e `DELETE` é executado, podemos usar as triggers para fazer outra operação.
+
+As operações de triggers que temos são:
+`FOR`: é o valor padrão e faz com que a trigger seja disparado junto da ação.
+`AFTER`: faz com que o disparo se de somente após a ação que o gerou.
+`INSTEAD OF`: faz com que a trigger seja executada no lugar da ação.
+
+## Aula 25 - Criação de Funcão e Triggers - Trabalhando em Paralelo
+
+### Atividade
+
+Explicado na aula como criar uma trigger, sua sintaxe e funcionamento.
+Para a criação do gatilho, são feitos em duas etapas:
+
+#### FUNCTION
+
+```
+CREATE OR REPLACE FUNCTION fn_nome()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $BODY$
+BEGIN
+
+  IF(TG_TOP = 'UPDATE') THEN
+    UPDATE tabela SET campo = dado
+  ELSEIF(TG_TOP = 'INSERT') THEN
+    UPDATE tabela SET campo = dado
+  END IF;
+
+END;
+$BODY$
+```
+
+#### TRIGGER
+
+```
+CREATE TRIGGER t_nome { BEFORE | AFTER | INSERT OR UPDATE}
+ON  tabela [ FOR [ EACH ] { ROW | STATEMENT } ]
+WHEN (pg_trigger_depht() = 0)
+EXECUTE PROCEDURE fn_nome ();
+```
