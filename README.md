@@ -89,7 +89,7 @@ Como também é possível criar uma tabela através de comandos de SQL.
 Icone: `Query Tool`.
 
 ```sql
-CREATE TABLE "SCH"."User"(
+CREATE TABLE "User"(
   id bigint primary key not null,
   username varchar(10) not null
 )
@@ -107,7 +107,7 @@ Também é possivel fazer isso através de comandos em SQL como por exemplo:
 #### Primary Key e Unique
 
 ```sql
-CREATE TABLE "SCH"."User"(
+CREATE TABLE "User"(
   id bigint primary key not null
   username varchar(10) unique
 )
@@ -116,17 +116,17 @@ CREATE TABLE "SCH"."User"(
 #### Foreign Key, Primary Key e Unique
 
 ```sql
-CREATE TABLE "SCH"."User"(
+CREATE TABLE "User"(
   id bigint primary key not null
   username varchar(10) unique
 )
-CREATE TABLE "SCH"."Role"(
+CREATE TABLE "Role"(
   id bigint primary key not null
   name varchar(10) not null,
   idUser int
   constraint fk_user
     foreign key(idUser)
-      references "SCH"."User"(id)
+      references "User"(id)
 )
 ```
 
@@ -134,18 +134,18 @@ Em casos de inserção/alteração/exclusão posterior de campos para chave prim
 
 #### Primary Key
 
-`ALTER TABLE "SCH"."User" ADD password varchar(10) primary key not null`
-`ALTER TABLE "SCH"."User" ALTER COLUMN password varchar(20)`
-`ALTER TABLE "SCH"."User" DROP COLUMN password`
+`ALTER TABLE "User" ADD password varchar(10) primary key not null`
+`ALTER TABLE "User" ALTER COLUMN password varchar(20)`
+`ALTER TABLE "User" DROP COLUMN password`
 
 #### Foreign Key
 
-`ALTER TABLE "SCH"."Role" ADD CONSTRAINT fk_user FOREIGN KEY (idUser) REFERENCES "SCH"."User"(id)`
-`ALTER TABLE "SCH"."Role" DROP CONSTRAINT fk_user`
+`ALTER TABLE "Role" ADD CONSTRAINT fk_user FOREIGN KEY (idUser) REFERENCES "User"(id)`
+`ALTER TABLE "Role" DROP CONSTRAINT fk_user`
 
 #### Unique
 
-`ALTER TABLE "SCH"."User" ALTER COLUMN username unique`
+`ALTER TABLE "User" ALTER COLUMN username unique`
 
 ## Aula 11 - Tipos de Campos - Integridade dos dados - CONSTRAINTS
 
@@ -164,7 +164,7 @@ Exemplo de criação:
 
 ```sql
 CREATE VIEW Username as (
-  SELECT username FROM "SCH"."User"
+  SELECT username FROM "User"
 )
 ```
 
@@ -216,7 +216,7 @@ SELECT
   nome,
   sobrenome,
   (nome||' '||sobrenome) as nome_completo
-FROM "SCH"."User"
+FROM "User"
 ```
 
 ## Aula 18 - Operacões - SELECT, INSERT, DELETE, UPDATE
@@ -238,7 +238,7 @@ SELECT * FROM (
     id,
     nome,
     cpf
-  FROM "SCH"."PESSOA"
+  FROM "PESSOA"
 ) AS A
 ```
 
@@ -284,25 +284,25 @@ O `SUBSTRING` serve para cortar um texto de-a partir de onde informa-lo.
 `Count` é utilizado para contagem de linhas dentro de uma consulta em especifico. É possivel colocar condições dentro dela para contagens de certas linhas em especifico. Sua sintexe é:
 
 ```sql
-SELECT COUNT(username) FROM "SCH"."User
+SELECT COUNT(username) FROM "User
 ```
 
 `Max` busca o maior valor dentro de uma consulta. Sua sintexe é:
 
 ```sql
-SELECT MAX(preco) FROM "SCH"."Produto"
+SELECT MAX(preco) FROM "Produto"
 ```
 
 `Min` busca o menor valor dentro de uma consulta. Sua sintexe é:
 
 ```sql
-SELECT MIN(preco) FROM "SCH"."Produto"
+SELECT MIN(preco) FROM "Produto"
 ```
 
 `Limit` colocar um limite de resultados da consulta. Exemplo: é possivel retornar apenas 1 ou 10 resultados de uma consulta. Sua sintaxe é:
 
 ```sql
-SELECT * FROM "SCH"."User" Limit 1
+SELECT * FROM "User" Limit 1
 ```
 
 ## Aula 23 - Comando WITH - POSTGRE e ORACLE
@@ -314,10 +314,10 @@ Exemplo:
 
 ```sql
 WITH PR AS (
-  SELECT * FROM "SCH"."User" WHERE estado = "PR"
+  SELECT * FROM "User" WHERE estado = "PR"
 ),
 SP AS (
-  SELECT * FROM "SCH"."User" WHERE estado = "SP"
+  SELECT * FROM "User" WHERE estado = "SP"
 )
 SELECT * FROM PR
 UNION
