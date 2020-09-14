@@ -88,7 +88,7 @@ ENTER!
 Como também é possível criar uma tabela através de comandos de SQL.
 Icone: `Query Tool`.
 
-```
+```sql
 CREATE TABLE "SCH"."User"(
   id bigint primary key not null,
   username varchar(10) not null
@@ -106,7 +106,7 @@ Também é possivel fazer isso através de comandos em SQL como por exemplo:
 
 #### Primary Key e Unique
 
-```
+```sql
 CREATE TABLE "SCH"."User"(
   id bigint primary key not null
   username varchar(10) unique
@@ -115,7 +115,7 @@ CREATE TABLE "SCH"."User"(
 
 #### Foreign Key, Primary Key e Unique
 
-```
+```sql
 CREATE TABLE "SCH"."User"(
   id bigint primary key not null
   username varchar(10) unique
@@ -162,7 +162,7 @@ Ele apenas funciona como consulta.
 
 Exemplo de criação:
 
-```
+```sql
 CREATE VIEW Username as (
   SELECT username FROM "SCH"."User"
 )
@@ -182,7 +182,7 @@ Reforço sobre chave primaria e chave estrangeira dentro de uma tabela, utilizan
 
 Explicado a forma e a estrutura do `SELECT` dentro de um SGBD, exemplo:
 
-```
+```sql
 SELECT
   *
 FROM tabela
@@ -196,7 +196,7 @@ WHERE tabela.id = 1
 
 Explica a condição `WHERE` dentro de consultas, onde posse haver diversas condições da tabela principal ou das demais relacionadas.
 
-```
+```sql
 SELECT * FROM tabela
   INNER JOIN outra_tabela on outra_tabela.id = tabela.Id_outra_tabela
     WHERE outra_tabela.id = 1
@@ -211,7 +211,7 @@ Explica que é possivel dar outro nome a coluna na hora de mostrar o resultado d
 Existem dois campos que precisam ser unidos `NOME` e `SOBRENOME` para retornar em um unico campo e o cliente receber isso em uma LABEL.
 É realizado uma concatenação com `||`, exemplo :
 
-```
+```sql
 SELECT
   nome,
   sobrenome,
@@ -232,7 +232,7 @@ Explicado o conceito e estrutura das operações: `SELECT`, `INSERT`,`DELETE`,`U
 Explicado o conceito de SubSelect e como utiliza-lo.
 Exemplo Pratico:
 
-```
+```sql
 SELECT * FROM (
   SELECT
     id,
@@ -281,10 +281,29 @@ O `SUBSTRING` serve para cortar um texto de-a partir de onde informa-lo.
 
 ### Atividade
 
-`Count` é utilizado para contagem de linhas dentro de uma consulta em especifico. É possivel colocar condições dentro dela para contagens de certas linhas em especifico. Sua sintexe é: `SELECT COUNT(username) FROM "SCH"."User"`
-`Max` busca o maior valor dentro de uma consulta. Sua sintexe é: `SELECT MAX(preco) FROM "SCH"."Produto"`.
-`Min` busca o menor valor dentro de uma consulta. Sua sintexe é: `SELECT MIN(preco) FROM "SCH"."Produto"`.
-`Limit` colocar um limite de resultados da consulta. Exemplo: é possivel retornar apenas 1 ou 10 resultados de uma consulta. Sua sintaxe é: `SELECT * FROM "SCH"."User" Limit 1`.
+`Count` é utilizado para contagem de linhas dentro de uma consulta em especifico. É possivel colocar condições dentro dela para contagens de certas linhas em especifico. Sua sintexe é:
+
+```sql
+SELECT COUNT(username) FROM "SCH"."User
+```
+
+`Max` busca o maior valor dentro de uma consulta. Sua sintexe é:
+
+```sql
+SELECT MAX(preco) FROM "SCH"."Produto"
+```
+
+`Min` busca o menor valor dentro de uma consulta. Sua sintexe é:
+
+```sql
+SELECT MIN(preco) FROM "SCH"."Produto"
+```
+
+`Limit` colocar um limite de resultados da consulta. Exemplo: é possivel retornar apenas 1 ou 10 resultados de uma consulta. Sua sintaxe é:
+
+```sql
+SELECT * FROM "SCH"."User" Limit 1
+```
 
 ## Aula 23 - Comando WITH - POSTGRE e ORACLE
 
@@ -293,7 +312,7 @@ O `SUBSTRING` serve para cortar um texto de-a partir de onde informa-lo.
 O comando `WITH` funciona como se você criasse uma tabela temporária e consultadsse ela, porém, em nível de consulta mesmo.
 Exemplo:
 
-```
+```sql
 WITH PR AS (
   SELECT * FROM "SCH"."User" WHERE estado = "PR"
 ),
@@ -327,7 +346,7 @@ Para a criação do gatilho, são feitos em duas etapas:
 
 #### FUNCTION
 
-```
+```sql
 CREATE OR REPLACE FUNCTION fn_nome()
 RETURNS TRIGGER
 LANGUAGE plpgsql
@@ -346,7 +365,7 @@ $BODY$
 
 #### TRIGGER
 
-```
+```sql
 CREATE TRIGGER t_nome { BEFORE | AFTER | INSERT OR UPDATE}
 ON  tabela [ FOR [ EACH ] { ROW | STATEMENT } ]
 WHEN (pg_trigger_depht() = 0)
